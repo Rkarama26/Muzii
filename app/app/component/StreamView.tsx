@@ -12,6 +12,10 @@ import z from "zod"
 import YouTube from "react-youtube"
 import { YT_REGEX } from "@/lib/utils"
 import { id } from "zod/v4/locales"
+import { toast } from "react-hot-toast";
+import { ThemeToggle } from "./ThemeToggle"
+import { notify } from "./customToast/notify"
+
 
 
 interface Song {
@@ -87,7 +91,7 @@ export default function StreamView(
         e.preventDefault()
         const videoId = extractVideoId(newVideoUrl)
         if (!session?.user) {
-            alert("Please sign in to add stream")
+            notify.info("Please sign in to add stream")
             return
         }
         try {
@@ -109,15 +113,15 @@ export default function StreamView(
                 await refreshStreams()
                 setNewVideoUrl("")
                 setIsDialogOpen(false)
-                alert("Song added to the queue!")
+                notify.success('Song added to the queue!')
             } else {
                 const error = await response.json()
                 console.error("Error submitting song:", error.message)
-                alert("Error submitting song: " + error.message)
+                notify.error("Error submitting song: " + error.message)
             }
         } catch (error) {
             console.error("Error submitting song:", error)
-            alert("Error submitting song. Please try again.")
+            toast.error("Error submitting song. Please try again.")
         }
         finally {
             setLoading(false);
@@ -127,7 +131,7 @@ export default function StreamView(
     // UPVOTE || DOWNVOTE
     const handleVote = (id: string, isUpvote: boolean) => {
         if (!session?.user) {
-            alert("Please sign in to vote on songs");
+            notify.info("Please sign in to vote on songs");
             return;
         }
         setQueue(
@@ -147,11 +151,15 @@ export default function StreamView(
         // Call the upvote API
         fetch(apiUrl, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ streamId: id }),
-        })
+        });
+        if (isUpvote) {
+            notify.vote.upvote();
+        } else {
+            notify.vote.downvote();
+        }
+
     }
 
     const playNext = async () => {
@@ -193,7 +201,7 @@ export default function StreamView(
         } else {
             // Fallback for browsers that don't support Web Share API
             navigator.clipboard.writeText(window.location.href)
-            alert("Link copied to clipboard!")
+            notify.success("Link copied to clipboard!")
         }
     }
 
@@ -211,6 +219,7 @@ export default function StreamView(
                                 <Share className="h-4 w-4" />
                                 Share
                             </Button>
+                            <ThemeToggle />
                         </div>
 
                     </div>
