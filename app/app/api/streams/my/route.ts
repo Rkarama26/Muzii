@@ -6,6 +6,7 @@ import { authOptions } from "../../auth/[...nextauth]/route";
 // get my streams 
 export async function GET() {
   const session = await getServerSession(authOptions);
+  
   const user = await prismaClient.user.findFirst({
     where: {
       email: session?.user?.email ?? "",

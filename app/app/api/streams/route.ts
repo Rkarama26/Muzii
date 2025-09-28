@@ -2,10 +2,11 @@ import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { prismaClient } from "@/app/lib/db";
 
-//@ts-ignore
-import * as YoutubeSearchApi from "youtube-search-api";
+// @ts-ignore
 import { YT_REGEX } from "@/lib/utils";
 import { getYouTubeVideoDetails } from "@/app/lib/youtube";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 
 const CreateStreamSchema = z.object({
@@ -69,19 +70,65 @@ export async function POST(req: NextRequest) {
 
     }
 }
-
-
-
+// get all streams for a creator
 export async function GET(req: NextRequest) {
-
     const creatorId = req.nextUrl.searchParams.get("creatorId");
-    const streams = await prismaClient.stream.findMany({
+
+    const session = await getServerSession(authOptions);
+
+    const user = await prismaClient.user.findFirst({
         where: {
-            userId: creatorId ?? ""
+            email: session?.user?.email ?? "",
         }
-    })
+    });
+
+    if (!user) {
+        return NextResponse.json({
+            message: "Unauthorized"
+        },
+            { status: 403 }
+        );
+    }
+    if (!creatorId) {
+        return NextResponse.json(
+            { message: "Error" },
+            { status: 411 }
+        )
+    }
+    const [streams, activeStream] = await Promise.all([await prismaClient.stream.findMany({
+        where: {
+            userId: creatorId,
+            played: false
+        },
+        include: {
+            _count: {
+                select: {
+                    upvotes: true,
+                }
+            },
+            upvotes: {
+                where: {
+                    userId: user.id
+                }
+            }
+        }
+    }), prismaClient.currentStream.findFirst({
+        where: {
+            userId: creatorId
+        },
+        include: {
+            stream: true
+        }
+    })])
+
+
     return NextResponse.json({
-        streams
+        streams: streams.map(({ _count, ...rest }) => ({
+            ...rest,
+            upvotesCount: _count.upvotes,
+            haveUpvoted: rest.upvotes.length ? true : false,
+        })),
+        activeStream
     });
 }
 
