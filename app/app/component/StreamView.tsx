@@ -214,11 +214,10 @@ export default function StreamView(
                         <span className="text-xl font-bold text-foreground">Muzii</span>
 
                         <div className="flex gap-2">
-                            {!session?.user ? (<Button variant="ghost" className='hidden md:inline-flex' onClick={() => signIn()}>Signin</Button>) : null}
-                            <Button onClick={handleShare} variant="outline" className="gap-2 bg-transparent">
-                                <Share className="h-4 w-4" />
-                                Share
-                            </Button>
+                            {!session?.user && (<Button variant="ghost" className='inline-flex' onClick={() => signIn()}>Signin</Button>)}
+                            {session?.user && <Button variant="ghost" className='inline-flex' onClick={() => signOut()}>Logout</Button>}
+
+
                             <ThemeToggle />
                         </div>
 
@@ -245,12 +244,29 @@ export default function StreamView(
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center justify-between">
-                                    <span className="flex items-center gap-2">
-                                        🎵 On The Beat
-                                        <Badge variant="outline" className="animate-pulse">
-                                            LIVE
-                                        </Badge>
+                                    <span className="flex items-center justify-between w-full">
+                                        <div className="flex items-center gap-2">
+                                            {/* Hidden on small screens */}
+                                            <span className="hidden sm:flex items-center gap-2">
+                                                🎵 On The Beat
+                                            </span>
+
+                                            {/* Always visible */}
+                                            <Badge variant="outline" className="animate-pulse">
+                                                LIVE
+                                            </Badge>
+                                        </div>
+                                        <Button
+                                            onClick={handleShare}
+                                            variant="outline"
+                                            size="sm"
+                                            className="gap-2 bg-transparent"
+                                        >
+                                            <Share className="h-4 w-4" />
+                                            Share
+                                        </Button>
                                     </span>
+
                                     <div className="flex items-center gap-2">
 
                                         {playVideo && <Button variant="outline" size="sm" onClick={playNext} disabled={playNextLoader && queue.length === 0}>
