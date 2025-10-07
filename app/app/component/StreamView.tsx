@@ -17,7 +17,6 @@ import { ThemeToggle } from "./ThemeToggle"
 import { notify } from "./customToast/notify"
 
 
-
 interface Song {
     id: string
     type: string
@@ -36,17 +35,8 @@ interface Song {
 }
 
 const REFRESH_INTERVAL_MS = 10 * 1000 // 10 seconds
-const creatorId = "60dc1287-c491-449b-9c00-bdc7ef8feabc";
 
-export default function StreamView(
-    {
-        creatorId,
-        playVideo = false
-    }: {
-        creatorId: string,
-        playVideo: boolean
-    }
-) {
+export default function StreamView({ creatorId, playVideo = false }: { creatorId: string, playVideo: boolean }) {
 
     const [loading, setLoading] = useState(false);
     // get sessions
@@ -56,13 +46,16 @@ export default function StreamView(
     const [newVideoUrl, setNewVideoUrl] = useState("")
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [playNextLoader, setplayNextLoader] = useState(false);
+    //current song 
+    const [currentSong, setCurrentSong] = useState<Song | null>(null)
 
     //get all streams
     async function refreshStreams() {
-        const res = await fetch(`/api/streams/?creatorId=${creatorId}`, {
+        const res = await fetch(`/api/streams/?creatorId=${session?.user.id}`, {
             credentials: "include",
         })
         const json = await res.json();
+        console.log("creatorId", creatorId)
         setQueue(json.streams.sort((a: any, b: any) => a.upvotes < b.upvotes ? 1 : -1));
         setCurrentSong(json?.activeStream?.stream);
         // setCurrentSong(json?.activeStream?.stream);
@@ -75,10 +68,8 @@ export default function StreamView(
         }, REFRESH_INTERVAL_MS)
 
         return () => clearInterval(interval)
-    }, [])
+    }, [session?.user?.id])
 
-    //current song 
-    const [currentSong, setCurrentSong] = useState<Song | null>(null)
 
     const extractVideoId = (url: string): string | null => {
         const match = url.match(YT_REGEX)
@@ -90,12 +81,13 @@ export default function StreamView(
         if (loading) return;
         e.preventDefault()
         const videoId = extractVideoId(newVideoUrl)
-        if (!session?.user) {
+        if (!session?.user?.id) {
             notify.info("Please sign in to add stream")
             return
         }
         try {
             setLoading(true);
+            console.log("session.user.id", session.user.id)
             const response = await fetch("/api/streams", {
                 method: "POST",
                 headers: {
@@ -103,7 +95,7 @@ export default function StreamView(
                 },
                 credentials: "include",
                 body: JSON.stringify({
-                    creatorId: "60dc1287-c491-449b-9c00-bdc7ef8feabc", // hardcoded for now, replace with session user id
+                    creatorId: session.user.id,  // hardcoded for now, replace with session user id
                     url: newVideoUrl,
                 }),
             })
@@ -187,7 +179,7 @@ export default function StreamView(
         const shareData = {
             title: "Stream Music Queue",
             text: "Vote for the next song and submit your favorites!",
-            url: `${window.location.origin}/creator/${creatorId}`,
+            url: `${window.location.origin}/creator/${session?.user.id}`,
         }
 
         if (navigator.share) {

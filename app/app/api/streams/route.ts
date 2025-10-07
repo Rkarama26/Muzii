@@ -32,7 +32,6 @@ export async function POST(req: NextRequest) {
         // const ytresponse = await YoutubeSearchApi.GetVideoDetails(extractedId);
         const res = await getYouTubeVideoDetails(extractedId);
 
-        console.log(res)
         if (!res || !res.title) {
             return NextResponse.json(
                 { message: "Couldn't fetch video details from youtube" },
