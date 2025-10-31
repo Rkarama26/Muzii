@@ -49,18 +49,18 @@ export default function StreamView({ creatorId, playVideo = false }: { creatorId
     //current song 
     const [currentSong, setCurrentSong] = useState<Song | null>(null)
 
-    //get all streams
+    //get all streams - FIXED: Now uses creatorId prop instead of session user id
     async function refreshStreams() {
-        const res = await fetch(`/api/streams/?creatorId=${session?.user.id}`, {
+        const res = await fetch(`/api/streams/?creatorId=${creatorId}`, {
             credentials: "include",
         })
         const json = await res.json();
         console.log("creatorId", creatorId)
         setQueue(json.streams.sort((a: any, b: any) => a.upvotes < b.upvotes ? 1 : -1));
         setCurrentSong(json?.activeStream?.stream);
-        // setCurrentSong(json?.activeStream?.stream);
     }
-    // load on page rendered
+    
+    // load on page rendered - FIXED: Now depends on creatorId instead of session user id
     useEffect(() => {
         refreshStreams()
         const interval = setInterval(() => {
@@ -68,7 +68,7 @@ export default function StreamView({ creatorId, playVideo = false }: { creatorId
         }, REFRESH_INTERVAL_MS)
 
         return () => clearInterval(interval)
-    }, [session?.user?.id])
+    }, [creatorId]) // Changed from session?.user?.id to creatorId
 
 
     const extractVideoId = (url: string): string | null => {
@@ -76,7 +76,7 @@ export default function StreamView({ creatorId, playVideo = false }: { creatorId
         return match ? match[1] : null
     }
 
-    // add song to queue
+    // add song to queue - FIXED: Now uses creatorId prop
     const handleSubmitSong = async (e: React.FormEvent) => {
         if (loading) return;
         e.preventDefault()
@@ -87,7 +87,6 @@ export default function StreamView({ creatorId, playVideo = false }: { creatorId
         }
         try {
             setLoading(true);
-            console.log("session.user.id", session.user.id)
             const response = await fetch("/api/streams", {
                 method: "POST",
                 headers: {
@@ -95,7 +94,7 @@ export default function StreamView({ creatorId, playVideo = false }: { creatorId
                 },
                 credentials: "include",
                 body: JSON.stringify({
-                    creatorId: session.user.id,  // hardcoded for now, replace with session user id
+                    creatorId: creatorId,  // FIXED: Now uses the creatorId prop
                     url: newVideoUrl,
                 }),
             })
@@ -176,10 +175,11 @@ export default function StreamView({ creatorId, playVideo = false }: { creatorId
     }
 
     const handleShare = async () => {
+        // FIXED: Now shares the creator's page URL
         const shareData = {
             title: "Stream Music Queue",
             text: "Vote for the next song and submit your favorites!",
-            url: `${window.location.origin}/creator/${session?.user.id}`,
+            url: `${window.location.origin}/creator/${creatorId}`,
         }
 
         if (navigator.share) {
@@ -188,11 +188,11 @@ export default function StreamView({ creatorId, playVideo = false }: { creatorId
             } catch (err) {
                 console.log("Error sharing:", err)
                 // Fallback to copying URL
-                navigator.clipboard.writeText(window.location.href)
+                navigator.clipboard.writeText(`${window.location.origin}/creator/${creatorId}`)
             }
         } else {
             // Fallback for browsers that don't support Web Share API
-            navigator.clipboard.writeText(window.location.href)
+            navigator.clipboard.writeText(`${window.location.origin}/creator/${creatorId}`)
             notify.success("Link copied to clipboard!")
         }
     }

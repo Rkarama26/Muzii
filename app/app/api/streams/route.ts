@@ -38,8 +38,6 @@ export async function POST(req: NextRequest) {
                 { status: 400 }
             )
         }
-        // const thumbnails = res.thumbnails.thumbnails ?? [];
-        // thumbnails.sort((a: { width: number }, b: { width: number }) => a.width < b.width ? -1 : 1);
 
         //console.log("Creator ID:", data.creatorId);
         const stream = await prismaClient.stream.create({
@@ -49,8 +47,8 @@ export async function POST(req: NextRequest) {
                 extractedId,
                 type: "Youtube",
                 title: res.title ?? "can't find video",
-                smallImage: res.thumbnails.default.url ?? "https://search.brave.com/images?q=cat+image&context=W3sic3JjIjoiaHR0cHM6Ly9jZG4ucGl4YWJheS5jb20vcGhvdG8vMjAyMS8xMi8wMS8xNC8xMC9jYXQtZXllcy02ODM4MDczXzY0MC5qcGciLCJ0ZXh0IjoiRnJlZSBDYXQgRXllcyBFdXJvcGVhbiBTaG9ydGhhaXIgcGhvdG8gYW5kIHBpY3R1cmUiLCJwYWdlX3VybCI6Imh0dHBzOi8vcGl4YWJheS5jb20vaW1hZ2VzL3NlYXJjaC9jYXQvIn1d&sig=b3837df0f40fdd5f9c8618a534510e0fb186e918533e9593d3c74f64b7e095ef&nonce=4ebf453d8c102271f0efe714c3ba6451&source=imageCluster",
-                bigImage: res.thumbnails.maxres.url ?? "https://search.brave.com/images?q=cat+image&context=W3sic3JjIjoiaHR0cHM6Ly9jZG4ucGl4YWJheS5jb20vcGhvdG8vMjAyMS8xMi8wMS8xNC8xMC9jYXQtZXllcy02ODM4MDczXzY0MC5qcGciLCJ0ZXh0IjoiRnJlZSBDYXQgRXllcyBFdXJvcGVhbiBTaG9ydGhhaXIgcGhvdG8gYW5kIHBpY3R1cmUiLCJwYWdlX3VybCI6Imh0dHBzOi8vcGl4YWJheS5jb20vaW1hZ2VzL3NlYXJjaC9jYXQvIn1d&sig=b3837df0f40fdd5f9c8618a534510e0fb186e918533e9593d3c74f64b7e095ef&nonce=4ebf453d8c102271f0efe714c3ba6451&source=imageCluster"
+                smallImage: res.thumbnails.default.url ?? "https://search.brave.com/images?q=cat+image",
+                bigImage: res.thumbnails.maxres.url ?? "https://search.brave.com/images?q=cat+image"
             }
         });
 
@@ -69,66 +67,74 @@ export async function POST(req: NextRequest) {
 
     }
 }
+
 // get all streams for a creator
 export async function GET(req: NextRequest) {
     const creatorId = req.nextUrl.searchParams.get("creatorId");
 
-    const session = await getServerSession(authOptions);
-
-    const user = await prismaClient.user.findFirst({
-        where: {
-            email: session?.user?.email ?? "",
-        }
-    });
-
-    if (!user) {
-        return NextResponse.json({
-            message: "Unauthorized"
-        },
-            { status: 403 }
-        );
-    }
     if (!creatorId) {
         return NextResponse.json(
-            { message: "Error" },
-            { status: 411 }
+            { message: "creatorId is required" },
+            { status: 400 }
         )
     }
-    const [streams, activeStream] = await Promise.all([await prismaClient.stream.findMany({
-        where: {
-            userId: creatorId,
-            played: false
-        },
-        include: {
-            _count: {
-                select: {
-                    upvotes: true,
-                }
+
+    const session = await getServerSession(authOptions);
+
+    // Get the current user if they're logged in (for upvote checking)
+    let currentUserId: string | null = null;
+    
+    if (session?.user?.email) {
+        const user = await prismaClient.user.findFirst({
+            where: {
+                email: session.user.email,
+            }
+        });
+        currentUserId = user?.id || null;
+    }
+
+    // Fetch streams for the creator (not the logged-in user)
+    const [streams, activeStream] = await Promise.all([
+        prismaClient.stream.findMany({
+            where: {
+                userId: creatorId,  // Get streams for the creator
+                played: false
             },
-            upvotes: {
-                where: {
-                    userId: user.id
+            include: {
+                _count: {
+                    select: {
+                        upvotes: true,
+                    }
+                },
+                upvotes: currentUserId ? {
+                    where: {
+                        userId: currentUserId  // Check if current user has upvoted
+                    }
+                } : false,
+                user: {
+                    select: {
+                        email: true
+                    }
                 }
             }
-        }
-    }), prismaClient.currentStream.findFirst({
-        where: {
-            userId: creatorId
-        },
-        include: {
-            stream: true
-        }
-    })])
-
+        }), 
+        prismaClient.currentStream.findFirst({
+            where: {
+                userId: creatorId  // Get active stream for the creator
+            },
+            include: {
+                stream: true
+            }
+        })
+    ])
 
     return NextResponse.json({
-        streams: streams.map(({ _count, ...rest }) => ({
+        streams: streams.map(({ _count, user, ...rest }) => ({
             ...rest,
             upvotesCount: _count.upvotes,
             haveUpvoted: rest.upvotes.length ? true : false,
+            submittedBy: user.email.split('@')[0], // Extract username from email
         })),
         activeStream
     });
 }
-
-
