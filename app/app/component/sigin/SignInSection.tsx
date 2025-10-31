@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button"
-import { Music2 } from "lucide-react"
+import { Button } from '@/components/ui/button';
+import { Music2 } from 'lucide-react';
 
 export function SignInSection() {
   return (
@@ -19,5 +19,5 @@ export function SignInSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

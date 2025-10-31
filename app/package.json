@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.27.1",
@@ -44,6 +45,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
+    "prettier": "^3.6.2",
     "prisma": "^6.16.2",
     "tailwindcss": "^4.1.13",
     "tsx": "^4.20.5",

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Toaster } from "react-hot-toast";
+import { Toaster } from 'react-hot-toast';
 
 export default function CustomToaster() {
   return (
@@ -8,27 +8,27 @@ export default function CustomToaster() {
       position="top-right"
       toastOptions={{
         style: {
-          background: "var(--color-card)",
-          color: "var(--color-card-foreground)",
-          borderRadius: "var(--radius-md)",
-          border: "1px solid var(--color-border)",
+          background: 'var(--color-card)',
+          color: 'var(--color-card-foreground)',
+          borderRadius: 'var(--radius-md)',
+          border: '1px solid var(--color-border)',
         },
         success: {
           style: {
-            background: "var(--color-primary)",
-            color: "var(--color-primary-foreground)",
+            background: 'var(--color-primary)',
+            color: 'var(--color-primary-foreground)',
           },
         },
         error: {
           style: {
-            background: "var(--color-destructive)",
-            color: "var(--color-destructive-foreground)",
+            background: 'var(--color-destructive)',
+            color: 'var(--color-destructive-foreground)',
           },
         },
         loading: {
           style: {
-            background: "var(--color-muted)",
-            color: "var(--color-muted-foreground)",
+            background: 'var(--color-muted)',
+            color: 'var(--color-muted-foreground)',
           },
         },
       }}

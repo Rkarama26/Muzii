@@ -1,38 +1,38 @@
-import { Music, Twitter, Instagram, Youtube, Github } from "lucide-react"
+import { Music, Twitter, Instagram, Youtube, Github } from 'lucide-react';
 
 const footerLinks = {
   product: [
-    { name: "Features", href: "#features" },
-    { name: "Creators", href: "#creators" },
-    { name: "Community", href: "#community" },
-    { name: "Pricing", href: "#" },
+    { name: 'Features', href: '#features' },
+    { name: 'Creators', href: '#creators' },
+    { name: 'Community', href: '#community' },
+    { name: 'Pricing', href: '#' },
   ],
   company: [
-    { name: "About", href: "#" },
-    { name: "Blog", href: "#" },
-    { name: "Careers", href: "#" },
-    { name: "Contact", href: "#" },
+    { name: 'About', href: '#' },
+    { name: 'Blog', href: '#' },
+    { name: 'Careers', href: '#' },
+    { name: 'Contact', href: '#' },
   ],
   support: [
-    { name: "Help Center", href: "#" },
-    { name: "Documentation", href: "#" },
-    { name: "API Reference", href: "#" },
-    { name: "Status", href: "#" },
+    { name: 'Help Center', href: '#' },
+    { name: 'Documentation', href: '#' },
+    { name: 'API Reference', href: '#' },
+    { name: 'Status', href: '#' },
   ],
   legal: [
-    { name: "Privacy Policy", href: "#" },
-    { name: "Terms of Service", href: "#" },
-    { name: "Cookie Policy", href: "#" },
-    { name: "DMCA", href: "#" },
+    { name: 'Privacy Policy', href: '#' },
+    { name: 'Terms of Service', href: '#' },
+    { name: 'Cookie Policy', href: '#' },
+    { name: 'DMCA', href: '#' },
   ],
-}
+};
 
 const socialLinks = [
-  { name: "Twitter", icon: Twitter, href: "#" },
-  { name: "Instagram", icon: Instagram, href: "#" },
-  { name: "YouTube", icon: Youtube, href: "#" },
-  { name: "GitHub", icon: Github, href: "#" },
-]
+  { name: 'Twitter', icon: Twitter, href: '#' },
+  { name: 'Instagram', icon: Instagram, href: '#' },
+  { name: 'YouTube', icon: Youtube, href: '#' },
+  { name: 'GitHub', icon: Github, href: '#' },
+];
 
 export function Footer() {
   return (
@@ -133,10 +133,12 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-border">
           <div className="flex flex-col sm:flex-row justify-between items-center">
             <p className="text-sm text-muted-foreground">© 2025 Muzii. All rights reserved.</p>
-            <p className="text-sm text-muted-foreground mt-2 sm:mt-0">Made with ♪ for the music community</p>
+            <p className="text-sm text-muted-foreground mt-2 sm:mt-0">
+              Made with ♪ for the music community
+            </p>
           </div>
         </div>
       </div>
     </footer>
-  )
+  );
 }

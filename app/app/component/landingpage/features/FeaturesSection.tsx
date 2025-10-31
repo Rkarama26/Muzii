@@ -1,23 +1,26 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Vote, Radio, Heart } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Vote, Radio, Heart } from 'lucide-react';
 
 const features = [
   {
     icon: Vote,
-    title: "Fan-Driven Playlists",
-    description: "Your audience votes on the next song in real-time, creating the perfect collaborative soundtrack.",
+    title: 'Fan-Driven Playlists',
+    description:
+      'Your audience votes on the next song in real-time, creating the perfect collaborative soundtrack.',
   },
   {
     icon: Radio,
-    title: "Live Streaming Integration",
-    description: "Seamlessly integrate with your existing streaming setup. Works with all major platforms.",
+    title: 'Live Streaming Integration',
+    description:
+      'Seamlessly integrate with your existing streaming setup. Works with all major platforms.',
   },
   {
     icon: Heart,
-    title: "Community Building",
-    description: "Build stronger connections with your audience through shared musical experiences.",
+    title: 'Community Building',
+    description:
+      'Build stronger connections with your audience through shared musical experiences.',
   },
-]
+];
 
 export function FeaturesSection() {
   return (
@@ -49,5 +52,5 @@ export function FeaturesSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

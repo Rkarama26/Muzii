@@ -1,9 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { Menu, Music } from "lucide-react";
-import SignIn from "./sigin/SignIn";
-import { ThemeToggle } from "./ThemeToggle";
-import Redirect from "./Redirect";
-
+import { Button } from '@/components/ui/button';
+import { Menu, Music } from 'lucide-react';
+import SignIn from './sigin/SignIn';
+import { ThemeToggle } from './ThemeToggle';
+import Redirect from './Redirect';
 
 export default function Header() {
   return (
@@ -46,5 +45,5 @@ export default function Header() {
         </div>
       </div>
     </header>
-  )
+  );
 }

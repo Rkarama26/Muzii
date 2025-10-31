@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { ArrowRight, Sparkles } from "lucide-react"
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 export function CTASection() {
   return (
@@ -19,12 +19,15 @@ export function CTASection() {
             </h2>
 
             <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground text-pretty">
-              Join thousands of creators who are already building stronger communities through interactive music
-              experiences. Start your journey today.
+              Join thousands of creators who are already building stronger communities through
+              interactive music experiences. Start your journey today.
             </p>
 
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 text-lg">
+              <Button
+                size="lg"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 text-lg"
+              >
                 Get Started Free
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -40,5 +43,5 @@ export function CTASection() {
         </Card>
       </div>
     </section>
-  )
+  );
 }

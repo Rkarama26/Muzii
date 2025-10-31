@@ -1,11 +1,10 @@
-import { Button } from "@/components/ui/button"
-import { Play, Users, Music2 } from "lucide-react"
-import Redirect from "../Redirect"
+import { Button } from '@/components/ui/button';
+import { Play, Users, Music2 } from 'lucide-react';
+import Redirect from '../Redirect';
 
 export function HeroSection() {
   return (
     <section className="py-20 lg:py-32">
-      
       <div className="container">
         <div className="mx-auto max-w-3xl text-center">
           <div className="mb-8 flex justify-center">
@@ -19,8 +18,8 @@ export function HeroSection() {
           </h1>
 
           <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground sm:text-xl text-pretty">
-            Stream your content while your audience picks the soundtrack. The music streaming platform where creators
-            and fans collaborate in real-time.
+            Stream your content while your audience picks the soundtrack. The music streaming
+            platform where creators and fans collaborate in real-time.
           </p>
 
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
@@ -36,5 +35,5 @@ export function HeroSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
