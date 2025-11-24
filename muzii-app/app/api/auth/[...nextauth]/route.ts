@@ -1,6 +1,9 @@
 import GoogleProvider from 'next-auth/providers/google';
 import { prismaClient } from '@/app/lib/db';
-import NextAuth, { NextAuthOptions } from 'next-auth';
+import NextAuth from 'next-auth';
+import type { JWT } from 'next-auth/jwt';
+import type { Session } from 'next-auth';
+import type { NextAuthOptions } from 'next-auth';
 
 // Extend  Session type to include id
 declare module 'next-auth' {
@@ -35,6 +38,13 @@ export const authOptions: NextAuthOptions = {
             provider: 'Google',
           },
         });
+
+        const dbUser = await prismaClient.user.findUnique({
+          where: { email: user.email },
+        });
+        if (dbUser) {
+          user.id = dbUser.id;
+        }
       } catch (error) {
         console.error('Error creating user:', error);
       }
@@ -42,15 +52,16 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
 
-    // <-- Add this callback to include `id` in the session
-    async session({ session, user }) {
-      if (session.user && session.user.email) {
-        const dbUser = await prismaClient.user.findUnique({
-          where: { email: session.user.email },
-        });
-        if (dbUser) {
-          session.user.id = dbUser.id; // add id to session.user
-        }
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+
+    async session({ session, token }) {
+      if (token.id) {
+        session.user.id = token.id as string;
       }
       return session;
     },
