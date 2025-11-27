@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Rounded square background -->
+  <rect width="64" height="64" rx="12" fill="url(#grad1)"/>
+  
+  <!-- Music note combined with people/community -->
+  <!-- Music note stem -->
+  <path d="M 42 15 L 42 38 Q 42 42 38 42 Q 34 42 34 38 Q 34 34 38 34 Q 40 34 42 35 L 42 22" 
+        fill="#00d9ff" stroke="#00d9ff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Music note head (circle) -->
+  <circle cx="38" cy="38" r="4" fill="#00d9ff"/>
+  
+  <!-- Community circles (3 people) -->
+  <!-- Person 1 (left) -->
+  <circle cx="18" cy="32" r="4" fill="#00d9ff" opacity="0.9"/>
+  <path d="M 18 36 Q 14 37 14 42 L 14 45 Q 14 46 15 46 L 21 46 Q 22 46 22 45 L 22 42 Q 22 37 18 36" 
+        fill="#00d9ff" opacity="0.9"/>
+  
+  <!-- Person 2 (middle-left) -->
+  <circle cx="26" cy="28" r="3.5" fill="#00d9ff" opacity="0.95"/>
+  <path d="M 26 31.5 Q 22.5 32.5 22.5 37 L 22.5 40 Q 22.5 41 23.5 41 L 28.5 41 Q 29.5 41 29.5 40 L 29.5 37 Q 29.5 32.5 26 31.5" 
+        fill="#00d9ff" opacity="0.95"/>
+  
+  <!-- Connection wave -->
+  <path d="M 22 35 Q 28 32 34 36" 
+        stroke="#00d9ff" stroke-width="2" fill="none" opacity="0.6" stroke-linecap="round"/>
+</svg>

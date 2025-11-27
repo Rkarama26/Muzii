@@ -8,8 +8,8 @@ export function HeroSection() {
       <div className="container">
         <div className="mx-auto max-w-3xl text-center">
           <div className="mb-8 flex justify-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary">
-              <Music2 className="h-8 w-8 text-primary-foreground" />
+            <div className="flex h-16 w-16 items-center justify-center rounded-full">
+              <img src="/muzii-icon.png" alt="Muzii" className="h-16 w-16" />
             </div>
           </div>
 

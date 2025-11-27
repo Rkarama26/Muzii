@@ -1,4 +1,4 @@
-import { Music, Twitter, Instagram, Youtube, Github } from 'lucide-react';
+import { Twitter, Instagram, Youtube, Github } from 'lucide-react';
 
 const footerLinks = {
   product: [
@@ -42,7 +42,7 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-2 mb-4">
-              <Music className="h-8 w-8 text-primary" />
+              <img src="/muzii-icon.png" alt="Muzii" className="h-8 w-8" />
               <span className="text-xl font-bold text-foreground">Muzii</span>
             </div>
             <p className="text-sm text-muted-foreground mb-4">

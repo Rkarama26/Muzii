@@ -1,0 +1,60 @@
+# Muzii App Overview
+# Generated on November 27, 2025
+
+## What Muzii Does
+Muzii is a modern music streaming platform built with Next.js, TypeScript, and Prisma. It allows users to discover, stream, and interact with music content, primarily sourced from YouTube. Creators can share their streams, and users can upvote/downvote, follow creators, and manage their personalized music experience.
+
+## Core Features
+- **User Authentication**: Secure sign-in via Google OAuth using NextAuth.
+- **Music Streaming**: Integration with YouTube API for video playback.
+- **Creator Profiles**: Dynamic pages for individual creators (e.g., /creator/[creatorId]).
+- **Stream Management**: Users can view, upvote, downvote, and navigate streams.
+- **Dashboard**: Personalized user dashboard for managing streams and preferences.
+- **Landing Page**: Attractive homepage with hero section, features, and call-to-action.
+- **Dark/Light Theme**: Toggle between themes using next-themes.
+- **Responsive UI**: Built with Tailwind CSS and Radix UI components.
+- **Database**: Prisma ORM with PostgreSQL for user data, streams, upvotes, etc.
+- **API Routes**: RESTful endpoints for auth, streams, and interactions.
+
+## App Flow
+1. **Landing**: User visits the homepage (/) – sees hero, features, and sign-in prompt.
+2. **Authentication**: Clicks sign-in → redirects to Google OAuth → creates/updates user in DB → redirects back.
+3. **Dashboard**: Authenticated users access /dashboard for personalized content.
+4. **Streams**: Browse streams via /api/streams – view, upvote/downvote, get next stream.
+5. **Creators**: Visit /creator/[creatorId] to see a creator's profile and streams.
+6. **Interactions**: Users can upvote/downvote streams, view "my streams", etc.
+7. **YouTube Integration**: Streams pull video data from YouTube for playback.
+
+## Technical Stack
+- **Frontend**: Next.js 16, React 19, TypeScript, Tailwind CSS, Radix UI.
+- **Backend**: Next.js API routes, Prisma Client.
+- **Database**: Prisma with PostgreSQL (via migrations).
+- **Auth**: NextAuth v4 with Google Provider.
+- **Deployment**: Vercel (based on domain muzii-nu.vercel.app).
+- **Other**: YouTube API, Lucide React icons, Toast notifications.
+
+## Key Components
+- **Header**: Navigation with sign-in button, theme toggle.
+- **SignIn/SignInSection**: Handles auth flow.
+- **StreamView**: Displays individual streams with controls.
+- **Footer**: Site footer.
+- **Providers**: Wraps app with SessionProvider and ThemeProvider.
+
+## Database Models (Prisma)
+- **User**: Email, provider, ID.
+- **Stream**: Title, thumbnail, YouTube ID, creator, upvotes, etc.
+- **Upvote/Downvote**: User interactions with streams.
+
+## Environment Variables
+- GOOGLE_CLIENT_ID/SECRET: For OAuth.
+- NEXTAUTH_SECRET: For session encryption.
+- NEXTAUTH_URL: App URL (https://muzii-nu.vercel.app).
+- DATABASE_URL: Prisma DB connection.
+
+## Development Notes
+- Run `npm run dev` for local development.
+- Build with `npm run build`.
+- Prisma migrations for DB schema changes.
+- ESLint and Prettier for code quality.
+
+This app is designed for music enthusiasts to connect with creators and enjoy seamless streaming.

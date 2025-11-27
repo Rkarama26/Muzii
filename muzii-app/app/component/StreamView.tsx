@@ -227,7 +227,10 @@ export default function StreamView({
             </div>
           </div>
           <div className="space-y-3">
-            <h1 className="text-4xl font-bold text-foreground">🎵 Beat Control Central</h1>
+            <h1 className="text-4xl font-bold text-foreground">
+              <img src="/muzii-icon.png" alt="Muzii" className="inline h-16 w-16 mr-1" /> Beat
+              Control Central
+            </h1>
             <div className="flex flex-wrap justify-center gap-2 text-sm">
               <Badge variant="secondary">Drop the Beat</Badge>
               <Badge variant="secondary">Control the Vibe</Badge>
@@ -251,7 +254,10 @@ export default function StreamView({
                   <span className="flex items-center justify-between w-full">
                     <div className="flex items-center gap-2">
                       {/* Hidden on small screens */}
-                      <span className="hidden sm:flex items-center gap-2">🎵 On The Beat</span>
+                      <span className="hidden sm:flex items-center gap-2">
+                        <img src="/muzii-icon.png" alt="Muzii" className="inline h-4 w-4" /> On The
+                        Beat
+                      </span>
 
                       {/* Always visible */}
                       <Badge variant="outline" className="animate-pulse">
@@ -320,7 +326,10 @@ export default function StreamView({
                   ) : (
                     <div className="flex items-center justify-center h-full text-muted-foreground">
                       <div className="text-center">
-                        <p className="text-lg">🎵 No song selected</p>
+                        <p className="text-lg">
+                          <img src="/muzii-icon.png" alt="Muzii" className="inline h-5 w-5 mr-2" />{' '}
+                          No song selected
+                        </p>
                       </div>
                     </div>
                   )}
@@ -362,7 +371,10 @@ export default function StreamView({
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>🎵 Submit Your Beat</DialogTitle>
+                      <DialogTitle>
+                        <img src="/muzii-icon.png" alt="Muzii" className="inline h-5 w-5 mr-2" />{' '}
+                        Submit Your Beat
+                      </DialogTitle>
                     </DialogHeader>
                     <div className="space-y-4">
                       <div>
@@ -410,7 +422,7 @@ export default function StreamView({
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  🎵 Beat Queue
+                  <img src="/muzii-icon.png" alt="Muzii" className="inline h-5 w-5" /> Beat Queue
                   <Badge variant="secondary">{queue.length} tracks ready</Badge>
                 </CardTitle>
                 <p className="text-sm text-muted-foreground">
@@ -462,7 +474,10 @@ export default function StreamView({
                   ))}
                   {queue.length === 0 && (
                     <div className="text-center py-8 space-y-2">
-                      <p className="text-muted-foreground">{'🎵 The beat queue is empty!'}</p>
+                      <p className="text-muted-foreground">
+                        <img src="/muzii-icon.png" alt="Muzii" className="inline h-5 w-5 mr-2" />{' '}
+                        The beat queue is empty!
+                      </p>
                       <p className="text-sm text-muted-foreground">
                         {'Be the first to drop a banger and get this party started 🔥'}
                       </p>
