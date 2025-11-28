@@ -40,10 +40,10 @@ export async function GET() {
     },
   });
   return NextResponse.json({
-    streams: streams.map(({ _count, ...rest }) => ({
-      ...rest,
-      upvotesCount: _count.upvotes,
-      haveUpvoted: rest.upvotes.length ? true : false,
+    streams: streams.map((stream: any) => ({
+      ...stream,
+      upvotesCount: stream._count.upvotes,
+      haveUpvoted: stream.upvotes.length ? true : false,
     })),
   });
 }

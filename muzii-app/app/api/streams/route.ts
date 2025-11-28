@@ -125,11 +125,11 @@ export async function GET(req: NextRequest) {
   ]);
 
   return NextResponse.json({
-    streams: streams.map(({ _count, user, ...rest }) => ({
-      ...rest,
-      upvotesCount: _count.upvotes,
-      haveUpvoted: rest.upvotes.length ? true : false,
-      submittedBy: user.email.split('@')[0], // Extract username from email
+    streams: streams.map((stream: any) => ({
+      ...stream,
+      upvotesCount: stream._count.upvotes,
+      haveUpvoted: stream.upvotes.length ? true : false,
+      submittedBy: stream.user.email.split('@')[0], // Extract username from email
     })),
     activeStream,
   });
