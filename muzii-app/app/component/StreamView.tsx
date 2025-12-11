@@ -213,7 +213,11 @@ export default function StreamView({
 
             <div className="flex gap-2">
               {!session?.user && (
-                <Button variant="ghost" className="inline-flex" onClick={() => signIn()}>
+                <Button
+                  variant="ghost"
+                  className="inline-flex"
+                  onClick={() => signIn('google', { prompt: 'select_account' })}
+                >
                   Signin
                 </Button>
               )}
